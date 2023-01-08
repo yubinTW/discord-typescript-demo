@@ -3,10 +3,11 @@ import { TOKEN } from './config'
 import { PingSlashCommand } from './commands/ping'
 import { SlashCommand } from './interfaces/command'
 import { deploySlashCommands } from './deploy'
+import { AddSlashCommand } from './commands/add'
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
-const commandList = [PingSlashCommand]
+const commandList = [PingSlashCommand, AddSlashCommand]
 
 console.log(`Started refreshing ${commandList.length} application (/) commands.`)
 deploySlashCommands(commandList)
