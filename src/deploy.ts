@@ -1,0 +1,10 @@
+import { REST, Routes } from 'discord.js'
+import { TOKEN, GUILD_ID, CLIENT_ID } from './config.js'
+import { SlashCommand } from './interfaces/command.js'
+
+export function deploySlashCommands(commandList: Array<SlashCommand>) {
+  const rest = new REST({ version: '10' }).setToken(TOKEN)
+  const putPayload = commandList.map((c) => c.data.toJSON())
+
+  return rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: putPayload })
+}
