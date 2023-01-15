@@ -13,3 +13,11 @@ cp .env.sample .env
 - set your environment variable according to your app
 
 - use `npm run dev` for developing
+
+## Deployment
+
+use [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk#linux)
+
+```
+npm run deploy
+```
