@@ -1,6 +1,6 @@
 import { REST, Routes } from 'discord.js'
-import { TOKEN, GUILD_ID, CLIENT_ID } from './config.js'
-import { SlashCommand } from './interfaces/command.js'
+import { TOKEN, GUILD_ID, CLIENT_ID } from './config'
+import { SlashCommand } from './interfaces/command'
 
 export function deploySlashCommands(commandList: Array<SlashCommand>) {
   const rest = new REST({ version: '10' }).setToken(TOKEN)
