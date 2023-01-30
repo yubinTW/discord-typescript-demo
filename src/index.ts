@@ -10,12 +10,12 @@ const commandList = [PingSlashCommand]
 
 console.log(`Started refreshing ${commandList.length} application (/) commands.`)
 deploySlashCommands(commandList)
-  .then((res) => console.log(`Successfully reloaded application (/) commands. ${JSON.stringify(res)}`))
+  .then((res) =>
+    console.log(`Successfully reloaded ${res.length} application (/) commands: ${res.map((c) => c.name).join(',')}`)
+  )
   .catch((error) => console.log(`Failed to reload application commands. ${error}`))
 
-const commands = new Collection<string, SlashCommand>()
-
-commandList.forEach((command) => commands.set(command.data.name, command))
+const commands = new Collection<string, SlashCommand>(commandList.map((c) => [c.data.name, c]))
 
 client.once(Events.ClientReady, () => {
   console.log('Ready!')
