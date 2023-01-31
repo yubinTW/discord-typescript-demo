@@ -17,7 +17,10 @@
   "dependencies": {
     "discord-api-types": "^0.37.30",
     "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "fp-ts": "^2.13.1",
+    "io-ts": "^2.2.20",
+    "io-ts-types": "^0.5.19"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

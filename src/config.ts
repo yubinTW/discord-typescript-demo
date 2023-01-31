@@ -1,7 +1,17 @@
-import dotenv from 'dotenv'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/lib/function'
+import { EnvVarEmptyError, envVarEmptyErrorOf } from './errors'
+import * as t from 'io-ts-types'
 
-dotenv.config()
+export type AppConfig = {
+  token: string
+  clientId: string
+  guildId: string
+}
 
-export const TOKEN = process.env.TOKEN || ''
-export const GUILD_ID = process.env.GUILD_ID || ''
-export const CLIENT_ID = process.env.CLIENT_ID || ''
+export const readEnvironmentVariable: (key: string) => E.Either<EnvVarEmptyError, string> = (key) =>
+  pipe(
+    process.env[key],
+    t.NonEmptyString.decode,
+    E.mapLeft(() => envVarEmptyErrorOf(`Cannot find environment variable: ${key}`))
+  )
