@@ -14,3 +14,7 @@ export type DeployCommandsResponse = Array<{
   description_localizations?: LocalizationMap
   guild_id: Snowflake
 }>
+
+export type DiscordjsClientLoginError = {
+  code: string
+}
