@@ -1,40 +1,45 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { PingSlashCommand } from './commands/ping'
 import { deploySlashCommands } from './deploy'
-import { pipe } from 'fp-ts/lib/function'
 import dotenv from 'dotenv'
-import * as E from 'fp-ts/Either'
-import * as TE from 'fp-ts/TaskEither'
-import { sequenceS } from 'fp-ts/Apply'
-import { AppError } from './errors'
-import { AppConfig, readEnvironmentVariable } from './config'
-import { loginBot, setBotListener } from './bot'
+import { AppConfig } from './types/config'
+import { setBotListener } from './bot'
+import { SlashCommand } from './types/command'
+import { cleanEnv, str } from 'envalid'
 
-// register commands
-const commandList = [PingSlashCommand]
+// Register commands
+const commandList: Array<SlashCommand> = [PingSlashCommand]
 
+// Read .env file (if exist)
 dotenv.config()
 
-// read config
-const appConfig: E.Either<AppError, AppConfig> = pipe(
-  {
-    token: readEnvironmentVariable('TOKEN'),
-    clientId: readEnvironmentVariable('CLIENT_ID'),
-    guildId: readEnvironmentVariable('GUILD_ID')
-  },
-  sequenceS(E.Apply)
-)
+// Read environment variables
+const env = cleanEnv(process.env, {
+  TOKEN: str(),
+  CLIENT_ID: str(),
+  GUILD_ID: str()
+})
 
+// Construct the main config of this app
+const appConfig: AppConfig = {
+  token: env.TOKEN,
+  clientId: env.CLIENT_ID,
+  guildId: env.GUILD_ID
+}
+
+// DiscordJS API Client: https://discord.js.org/#/docs/discord.js/main/class/Client
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
-pipe(
-  TE.Do,
-  TE.bind('appConfig', () => TE.fromEither(appConfig)),
-  TE.chainFirst(({ appConfig }) => deploySlashCommands(appConfig)(commandList)),
-  TE.chainFirst(({ appConfig }) => loginBot(appConfig)(client)),
-  TE.chain(() => TE.of(setBotListener(client)(commandList))),
-  TE.match(
-    (e) => console.log(`${e._tag}: ${e.msg}`),
-    () => console.log('Deploy commands and login successfully!')
-  )
-)()
+// Deploy commands to a Discord chat server
+deploySlashCommands(appConfig, commandList)
+  .then((response) => console.log(`Deploy ${response.length} commands: ${response.map((c) => c.name)} successfully!`))
+  .catch((reason) => console.log(`Failed to deploy commands: ${reason}`))
+
+// Add event listener from discord
+setBotListener(client, commandList)
+
+// Logs the client in, establishing a WebSocket connection to Discord.
+client
+  .login(appConfig.token)
+  .then(() => console.log(`Login successfully!`))
+  .catch((reason) => console.log(`Failed to login: ${reason}`))
