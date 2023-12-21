@@ -8,9 +8,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"tsc -w \" \"nodemon dist/index.js\"",
-    "fix-prettier": "prettier --write \"./src/**/*.ts\"",
-    "gcp-build": "npm run build",
-    "deploy": "gcloud app deploy --no-cache"
+    "fix-prettier": "prettier --write \"./src/**/*.ts\""
   },
   "keywords": [],
   "author": "",

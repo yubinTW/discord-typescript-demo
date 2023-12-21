@@ -1,5 +1,0 @@
-runtime: nodejs16
-handlers:
-  - url: /
-    static_files: static/index.html
-    upload: static/index.html
