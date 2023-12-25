@@ -1,6 +1,7 @@
 import { REST, Routes } from 'discord.js'
-import { AppConfig } from './types/config'
+
 import { SlashCommand } from './types/command'
+import { AppConfig } from './types/config'
 import { DeployCommandsResponse } from './types/response'
 
 export function deploySlashCommands(appConfig: AppConfig, commandList: Array<SlashCommand>) {

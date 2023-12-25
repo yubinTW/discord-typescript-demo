@@ -1,4 +1,5 @@
 import { Client, Collection, Events } from 'discord.js'
+
 import { SlashCommand } from './types/command'
 
 export function setBotListener(client: Client, commandList: Array<SlashCommand>) {

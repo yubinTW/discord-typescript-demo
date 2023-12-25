@@ -1,11 +1,12 @@
 import { Client, GatewayIntentBits } from 'discord.js'
+import dotenv from 'dotenv'
+import { cleanEnv, str } from 'envalid'
+
+import { setBotListener } from './bot'
 import { PingSlashCommand } from './commands/ping'
 import { deploySlashCommands } from './deploy'
-import dotenv from 'dotenv'
-import { AppConfig } from './types/config'
-import { setBotListener } from './bot'
 import { SlashCommand } from './types/command'
-import { cleanEnv, str } from 'envalid'
+import { AppConfig } from './types/config'
 
 // Register commands
 const commandList: Array<SlashCommand> = [PingSlashCommand]

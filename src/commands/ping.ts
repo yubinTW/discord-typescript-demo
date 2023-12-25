@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, CommandInteraction } from 'discord.js'
+import { CommandInteraction,SlashCommandBuilder } from 'discord.js'
+
 import { SlashCommand } from '../types/command'
 
 export const PingSlashCommand: SlashCommand = {

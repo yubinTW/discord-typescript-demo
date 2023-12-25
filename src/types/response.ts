@@ -1,4 +1,4 @@
-import { LocalizationMap, Snowflake, Permissions } from 'discord.js'
+import { LocalizationMap, Permissions,Snowflake } from 'discord.js'
 
 export type DeployCommandsResponse = Array<{
   id: Snowflake
